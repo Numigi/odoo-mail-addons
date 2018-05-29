@@ -2,6 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from datetime import datetime
+
+from odoo import fields
 from odoo.tests import common
 
 
@@ -32,3 +34,14 @@ class TestMailActivity(common.SavepointCase):
         self.activity.refresh()
         self.assertTrue(self.activity.exists())
         self.assertFalse(self.activity.active)
+
+    def test_the_date_done_is_computed_when_the_activity_is_completed(self):
+        self.assertFalse(self.activity.date_done)
+
+        time_before = datetime.now()
+        self.activity.action_done()
+        time_after = datetime.now()
+
+        date_done = fields.Datetime.from_string(self.activity.date_done)
+        self.assertLessEqual(time_before, date_done)
+        self.assertLessEqual(date_done, time_after)
