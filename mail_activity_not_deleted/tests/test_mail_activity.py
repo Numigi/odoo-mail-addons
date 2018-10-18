@@ -3,7 +3,6 @@
 
 from datetime import datetime
 
-from odoo import fields
 from odoo.tests import common
 
 
@@ -38,9 +37,9 @@ class TestMailActivity(common.SavepointCase):
     def test_the_date_done_is_computed_when_the_activity_is_completed(self):
         self.assertFalse(self.activity.date_done)
 
-        time_before = fields.Datetime.to_string(datetime.now())
+        time_before = datetime.now()
         self.activity.action_done()
-        time_after = fields.Datetime.to_string(datetime.now())
+        time_after = datetime.now()
 
         self.assertLessEqual(time_before, self.activity.date_done)
         self.assertLessEqual(self.activity.date_done, time_after)
