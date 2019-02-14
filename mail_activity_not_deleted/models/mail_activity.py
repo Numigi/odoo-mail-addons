@@ -26,6 +26,8 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
                 'active': False,
                 'date_done': datetime.now(),
             })
+            for activity in self:
+                activity._update_record_date_deadline()
         else:
             return super().unlink()
 
@@ -39,6 +41,12 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
                 self.env['bus.bus'].sendone(
                     (self._cr.dbname, 'res.partner', activity.user_id.partner_id.id),
                     {'type': 'activity_updated', 'activity_deleted': True})
+
+    def _update_record_date_deadline(self):
+        """Update the stored fields that depend on activity_ids on the related record."""
+        record = self.env[self.res_model].browse(self.res_id)
+        record.modified(['activity_ids'])
+        record.recompute()
 
 
 class MailActivityWithStateDone(models.Model):
@@ -61,6 +69,9 @@ class MailActivityMixinWithActivityNotDeletedWhenRecordDeactivated(models.Abstra
     """When deactivating a record, deactivate activities instead of deleting them."""
 
     _inherit = 'mail.activity.mixin'
+
+    # auto_join prevents the active filter from being automatically applied.
+    activity_ids = fields.One2many(auto_join=False)
 
     @api.multi
     def write(self, vals):

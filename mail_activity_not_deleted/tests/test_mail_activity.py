@@ -12,13 +12,16 @@ class TestMailActivity(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.partner = cls.env.ref('base.res_partner_2')
-        cls.activity = cls.env['mail.activity'].create({
-            'res_id': cls.partner.id,
-            'res_model_id': cls.env.ref('base.model_res_partner').id,
-            'date_deadline': datetime.now(),
-            'user_id': cls.env.user.id,
+        cls.partner = cls.env['res.partner'].create({'name': 'Test'})
+        cls.partner.write({
+            'activity_ids': [(0, 0, {
+                'res_id': cls.partner.id,
+                'res_model_id': cls.env.ref('base.model_res_partner').id,
+                'date_deadline': datetime.now().date(),
+                'user_id': cls.env.user.id,
+            })]
         })
+        cls.activity = cls.partner.activity_ids
 
     def test_when_activity_is_completed_then_it_is_inactive_instead_of_deleted(self):
         self.assertTrue(self.activity.active)
@@ -50,3 +53,13 @@ class TestMailActivity(common.SavepointCase):
         self.activity.action_done()
         self.activity.refresh()
         self.assertEqual(self.activity.state, 'done')
+
+    def test_when_the_activity_is_archived_then_it_is_not_due_today(self):
+        self.assertEqual(self.partner.activity_state, 'today')
+        self.activity.action_done()
+        self.assertFalse(self.partner.activity_state)
+
+    def test_when_the_activity_is_archived_then_partner_has_no_activity_deadline(self):
+        self.assertTrue(self.partner.activity_date_deadline)
+        self.activity.action_done()
+        self.assertFalse(self.partner.activity_date_deadline)
