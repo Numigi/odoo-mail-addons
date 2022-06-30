@@ -23,15 +23,15 @@ As a sales user, create a lead or opportunity or go to an existing lead/opportun
 
 Fill a user (other than myself) in the Salesperson field and save.
 
-    .. image:: mail_subscription_notification_mgmt/static/description/assign_salesperson_to_lead.png
+    .. image:: static/description/assign_salesperson_to_lead.png
 
 By default the Salesperson will receive an email notification.
 
-    .. image:: mail_subscription_notification_mgmt/static/description/subscription_notification.png
+    .. image:: static/description/subscription_notification.png
 
 Now if you want to disable the subscription notification for the crm.lead model, go to the form view of this model, uncheck the box **Disable Subscription Notifications** and save.
 
-    .. image:: mail_subscription_notification_mgmt/static/description/disable_subscription_notification.png
+    .. image:: static/description/disable_subscription_notification.png
 
 
 Contributors
