@@ -9,7 +9,7 @@
     'website': "https://bit.ly/numigi-com",
     'license': 'LGPL-3',
     'category': 'Other',
-    'summary': 'Manage subscription notification of a model.',
+    'summary': 'Disable subscription notification of a model.',
     'depends': ['mail'],
     'data': ['views/ir_model_views.xml'],
     'installable': True,
