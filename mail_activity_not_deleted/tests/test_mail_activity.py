@@ -1,4 +1,4 @@
-# © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from datetime import datetime
@@ -22,7 +22,8 @@ class TestMailActivity(common.SavepointCase):
     def test_when_activity_is_completed_then_it_is_inactive_instead_of_deleted(self):
         self.assertTrue(self.activity.active)
 
-        self.activity.action_done()
+        self.activity.with_context(
+            {'mail_activity_no_delete': True}).action_done()
         self.assertTrue(self.activity.exists())
         self.assertFalse(self.activity.active)
 
@@ -38,7 +39,8 @@ class TestMailActivity(common.SavepointCase):
         self.assertFalse(self.activity.date_done)
 
         time_before = datetime.now()
-        self.activity.action_done()
+        self.activity.with_context(
+            {'mail_activity_no_delete': True}).action_done()
         time_after = datetime.now()
 
         self.assertLessEqual(time_before, self.activity.date_done)
@@ -46,6 +48,7 @@ class TestMailActivity(common.SavepointCase):
 
     def test_the_state_is_done_after_the_activity_is_completed(self):
         self.assertNotEqual(self.activity.state, 'done')
-        self.activity.action_done()
+        self.activity.with_context(
+            {'mail_activity_no_delete': True}).action_done()
         self.activity.refresh()
         self.assertEqual(self.activity.state, 'done')
