@@ -18,17 +18,17 @@ msgstr ""
 #. module: fetchmail_outlook_by_company
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
 msgid "<span class=\"o_form_label\">Outlook Credentials of the company</span>"
-msgstr ""
+msgstr "<span class=\"o_form_label\">Identifiants Outlook de la société</span>"
 
 #. module: fetchmail_outlook_by_company
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
 msgid "Client ID"
-msgstr ""
+msgstr "ID client"
 
 #. module: fetchmail_outlook_by_company
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
 msgid "Client Secret"
-msgstr ""
+msgstr "Secret Client"
 
 #. module: fetchmail_outlook_by_company
 #: model:ir.model,name:fetchmail_outlook_by_company.model_res_company
@@ -41,7 +41,7 @@ msgstr "Sociétés"
 #: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_microsoft_outlook_mixin__company_id
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.ir_mail_server_view_form
 msgid "Company"
-msgstr ""
+msgstr "Société"
 
 #. module: fetchmail_outlook_by_company
 #: model:ir.model,name:fetchmail_outlook_by_company.model_res_config_settings
@@ -86,20 +86,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__microsoft_outlook_client_identifier
 #: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__microsoft_outlook_client_identifier_per_company
 msgid "Outlook Client Id"
-msgstr ""
+msgstr "ID client Outlook"
 
 #. module: fetchmail_outlook_by_company
 #: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__microsoft_outlook_client_secret
 #: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__microsoft_outlook_client_secret_per_company
 msgid "Outlook Client Secret"
-msgstr ""
+msgstr "Secret Client Outlook"
 
 #. module: fetchmail_outlook_by_company
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.view_company_form_oauth
 msgid "Outlook Credentials"
-msgstr ""
+msgstr "Identifiants Outlook"
 
 #. module: fetchmail_outlook_by_company
 #: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
 msgid "Send and receive email with your Outlook account linked to company."
-msgstr ""
+msgstr "Envoyez et recevez des emails avec votre compte Outlook liée à la société."
