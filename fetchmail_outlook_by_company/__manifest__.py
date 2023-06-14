@@ -11,5 +11,10 @@
     'category': 'Other',
     'summary': 'Add the possibility to use Outlook configuration per company.',
     'depends': ['fetchmail_outlook'],
+    "data": [
+        "views/ir_mail_server_views.xml",
+        "views/res_company_views.xml",
+        "views/res_config_settings.xml",
+    ],
     'installable': True,
 }

@@ -1,0 +1,105 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fetchmail_outlook_by_company
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-06-14 07:01+0000\n"
+"PO-Revision-Date: 2023-06-14 07:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fetchmail_outlook_by_company
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Outlook Credentials of the company</span>"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
+msgid "Client ID"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
+msgid "Client Secret"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model,name:fetchmail_outlook_by_company.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_fetchmail_server__company_id
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_ir_mail_server__company_id
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_microsoft_outlook_mixin__company_id
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.ir_mail_server_view_form
+msgid "Company"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model,name:fetchmail_outlook_by_company.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de config"
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_microsoft_outlook_mixin__display_name
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__display_name
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_microsoft_outlook_mixin__id
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__id
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_ir_mail_server____last_update
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_microsoft_outlook_mixin____last_update
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company____last_update
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model,name:fetchmail_outlook_by_company.model_ir_mail_server
+msgid "Mail Server"
+msgstr "Serveur d'email"
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model,name:fetchmail_outlook_by_company.model_microsoft_outlook_mixin
+msgid "Microsoft Outlook Mixin"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__microsoft_outlook_client_identifier
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__microsoft_outlook_client_identifier_per_company
+msgid "Outlook Client Id"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_company__microsoft_outlook_client_secret
+#: model:ir.model.fields,field_description:fetchmail_outlook_by_company.field_res_config_settings__microsoft_outlook_client_secret_per_company
+msgid "Outlook Client Secret"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.view_company_form_oauth
+msgid "Outlook Credentials"
+msgstr ""
+
+#. module: fetchmail_outlook_by_company
+#: model_terms:ir.ui.view,arch_db:fetchmail_outlook_by_company.res_config_settings_view_form
+msgid "Send and receive email with your Outlook account linked to company."
+msgstr ""
