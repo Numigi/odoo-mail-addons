@@ -103,6 +103,6 @@ class MicrosoftOutlookMixin(models.AbstractModel):
 
     def _fetch_outlook_token(self, grant_type, **values):
         if self._check_current_company_config():
-            self._fetch_outlook_token_by_company()
+            self._fetch_outlook_token_by_company(grant_type, **values)
         else:
             super()._fetch_outlook_token(grant_type, **values)
