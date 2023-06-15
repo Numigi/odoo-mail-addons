@@ -8,8 +8,6 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     microsoft_outlook_client_identifier_per_company = fields.Char(
-        related='company_id.microsoft_outlook_client_identifier',
-        config_parameter="microsoft_outlook_client_identifier_per_company")
+        related='company_id.microsoft_outlook_client_identifier')
     microsoft_outlook_client_secret_per_company = fields.Char(
-        related='company_id.microsoft_outlook_client_secret',
-        config_parameter="microsoft_outlook_client_secret_per_company")
+        related='company_id.microsoft_outlook_client_secret')
