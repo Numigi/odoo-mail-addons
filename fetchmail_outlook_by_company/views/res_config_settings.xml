@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="0"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_informations']" position="after">
+                    <div class="o_setting_right_pane" attrs="{'invisible': [('external_email_server_default', '=', False)]}">
+                            <span class="o_form_label">Outlook Credentials of the company</span>
+                            <div class="text-muted">
+                                Send and receive email with your Outlook account linked to company.
+                            </div>
+                            <div class="content-group">
+                                <div class="row mt16" id="outlook_client_identifier">
+                                    <label string="Client ID" for="microsoft_outlook_client_identifier_per_company"
+                                        class="col-lg-3 o_light_label"/>
+                                    <field name="microsoft_outlook_client_identifier_per_company" class="ml-2"/>
+                                </div>
+                                <div class="row mt16" id="outlook_client_secret">
+                                    <label string="Client Secret" for="microsoft_outlook_client_secret_per_company"
+                                        class="col-lg-3 o_light_label"/>
+                                    <field name="microsoft_outlook_client_secret_per_company" password="True" class="ml-2"/>
+                                </div>
+                            </div>
+                        </div>
+                </xpath>
+            </field>
+        </record>
+</odoo>
