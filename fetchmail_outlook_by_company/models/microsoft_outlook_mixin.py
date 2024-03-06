@@ -52,19 +52,29 @@ class MicrosoftOutlookMixin(models.AbstractModel):
                 record.microsoft_outlook_uri = False
                 continue
 
-            record.microsoft_outlook_uri = url_join(self._get_microsoft_endpoint(), 'authorize?%s' % url_encode({
-                'client_id': microsoft_outlook_client_id,
-                'response_type': 'code',
-                'redirect_uri': url_join(base_url, '/microsoft_outlook/confirm'),
-                'response_mode': 'query',
-                # offline_access is needed to have the refresh_token
-                'scope': 'offline_access %s' % self._OUTLOOK_SCOPE,
-                'state': json.dumps({
-                    'model': record._name,
-                    'id': record.id,
-                    'csrf_token': record._get_outlook_csrf_token(),
-                })
-            }))
+            record.microsoft_outlook_uri = url_join(
+                self._get_microsoft_endpoint(),
+                "authorize?%s"
+                % url_encode(
+                    {
+                        "client_id": microsoft_outlook_client_id,
+                        "response_type": "code",
+                        "redirect_uri": url_join(
+                            base_url, "/microsoft_outlook/confirm"
+                        ),
+                        "response_mode": "query",
+                        # offline_access is needed to have the refresh_token
+                        "scope": "offline_access %s" % self._OUTLOOK_SCOPE,
+                        "state": json.dumps(
+                            {
+                                "model": record._name,
+                                "id": record.id,
+                                "csrf_token": record._get_outlook_csrf_token(),
+                            }
+                        ),
+                    }
+                ),
+            )
 
     @api.depends('use_microsoft_outlook_service', 'company_id')
     def _compute_outlook_uri(self):
