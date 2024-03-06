@@ -11,7 +11,6 @@
     'category': 'Other',
     'summary': 'Install all addons required for testing.',
     'depends': [
-        'mail_activity_not_deleted',
         'fetchmail_outlook_by_company',
     ],
     'installable': True,
