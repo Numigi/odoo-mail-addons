@@ -1,4 +1,4 @@
-# © 2018 Numigi
+# © 2024 Numigi
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
@@ -11,8 +11,7 @@
     "category": "Other",
     "summary": "Install all addons required for testing.",
     "depends": [
-        "fetchmail_outlook_by_company",
-        "mail_activity_not_deleted",
+        "mail",
     ],
     "installable": True,
 }
