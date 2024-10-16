@@ -1,1 +1,1 @@
-gitoo
+gitoo==1.8
