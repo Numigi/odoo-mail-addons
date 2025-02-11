@@ -54,21 +54,9 @@ class MailActivityWithStateDone(models.Model):
 
     state = fields.Selection(selection_add=[("done", "Done")])
 
-    @api.depends("date_done")
-    def _compute_state_from_date_done(self):
+    @api.depends("date_deadline", "date_done")
+    def _compute_state(self):
+        super()._compute_state()
         done_activities = self.filtered(lambda a: a.date_done)
         for activity in done_activities:
             activity.state = "done"
-
-
-class MailActivityMixinWithActivityNotDeletedWhenRecordDeactivated(
-    models.AbstractModel
-):
-    """When deactivating a record, deactivate activities instead of deleting them."""
-
-    _inherit = "mail.activity.mixin"
-
-    def write(self, vals):
-        if "active" in vals and vals["active"] is False:
-            self = self.with_context(mail_activity_no_delete=True)
-        return super().write(vals)
