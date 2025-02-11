@@ -15,9 +15,7 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
 
     def action_feedback(self, feedback=False, attachment_ids=None):
         self = self.with_context(mail_activity_no_delete=True)
-        return super(MailActivityInactivatedInsteadOfDeleted, self).action_feedback(
-            False, None
-        )
+        return super().action_feedback(feedback=feedback, attachment_ids=attachment_ids)
 
     def unlink(self):
         """Deactivate instead of deleting the activity when it is completed."""
@@ -41,9 +39,9 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
             lambda act: act.date_deadline <= fields.Date.today()
         )
         if todo_activities:
-            self.env['bus.bus']._sendmany(
+            self.env["bus.bus"]._sendmany(
                 [
-                    [partner, 'mail.activity/updated', {'activity_deleted': True}]
+                    [partner, "mail.activity/updated", {"activity_deleted": True}]
                     for partner in todo_activities.user_id.partner_id
                 ]
             )
@@ -56,10 +54,8 @@ class MailActivityWithStateDone(models.Model):
 
     state = fields.Selection(selection_add=[("done", "Done")])
 
-    @api.depends("date_deadline")
-    def _compute_state(self):
-        super()._compute_state()
-
+    @api.depends("date_done")
+    def _compute_state_from_date_done(self):
         done_activities = self.filtered(lambda a: a.date_done)
         for activity in done_activities:
             activity.state = "done"
@@ -75,6 +71,4 @@ class MailActivityMixinWithActivityNotDeletedWhenRecordDeactivated(
     def write(self, vals):
         if "active" in vals and vals["active"] is False:
             self = self.with_context(mail_activity_no_delete=True)
-        return super(
-            MailActivityMixinWithActivityNotDeletedWhenRecordDeactivated, self
-        ).write(vals)
+        return super().write(vals)
