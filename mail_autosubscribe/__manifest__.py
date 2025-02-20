@@ -12,7 +12,7 @@
     "category": "Marketing",
     "depends": ["mail"],
     "maintainer": "Numigi",
-    "website": "https://github.com/OCA/social",
+    "website": "https://github.com/Numigi/odoo-mail-addons",
     "data": [
         "security/ir.model.access.csv",
         "views/mail_autosubscribe_views.xml",
