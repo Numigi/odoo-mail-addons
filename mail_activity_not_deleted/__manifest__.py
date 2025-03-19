@@ -11,5 +11,10 @@
     'category': 'Other',
     'summary': 'Deactivate terminated activities instead of deleting.',
     'depends': ['mail'],
+    'assets': {
+        'web.assets_backend': [
+            'mail_activity_not_deleted/static/src/**/*',
+        ]
+    },
     'installable': True,
 }
