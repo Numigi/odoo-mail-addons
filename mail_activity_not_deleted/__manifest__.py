@@ -2,14 +2,19 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
-    'name': 'Mail Activity Not Deleted',
-    'version': "16.0.1.0.0",
-    'author': 'Numigi',
-    'maintainer': 'Numigi',
-    'website': 'https://www.numigi.com',
-    'license': 'LGPL-3',
-    'category': 'Other',
-    'summary': 'Deactivate terminated activities instead of deleting.',
-    'depends': ['mail'],
-    'installable': True,
+    "name": "Mail Activity Not Deleted",
+    "version": "16.0.1.0.0",
+    "author": "Numigi",
+    "maintainer": "Numigi",
+    "website": "https://www.numigi.com",
+    "license": "LGPL-3",
+    "category": "Other",
+    "summary": "Deactivate terminated activities instead of deleting.",
+    "depends": ["mail"],
+    "assets": {
+        "web.assets_backend": [
+            "mail_activity_not_deleted/static/src/**/*",
+        ]
+    },
+    "installable": True,
 }
