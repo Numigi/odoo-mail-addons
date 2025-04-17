@@ -1,2 +1,2 @@
-# mail_template_archive/__init__.py
-from . import models
+# mail_template_archive/models/__init__.py
+from . import mail_template
