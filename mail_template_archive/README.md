@@ -4,7 +4,6 @@ Ce module ajoute la possibilité d'archiver des modèles de courriel dans Odoo 1
 
 ## Table des matières
 - [Fonctionnalités](#fonctionnalités)
-- [Installation](#installation)
 - [Configuration](#configuration)
 - [Utilisation](#utilisation)
 - [Contributeurs](#contributeurs)
@@ -15,20 +14,6 @@ Ce module ajoute la possibilité d'archiver des modèles de courriel dans Odoo 1
 - Ajoute un champ "Actif" aux modèles de courriel
 - Permet d'archiver des modèles de courriel sans les supprimer
 - Filtre pour afficher/masquer les modèles archivés
-
-## Installation
-
-1. Clonez ce dépôt dans votre répertoire d'addons Odoo:
-```bash
-cd /path/to/odoo/addons
-git clone [URL_DU_DEPOT] mail_template_archive
-```
-
-2. Mettez à jour la liste des modules dans Odoo:
-   - Activez le mode développeur
-   - Allez dans Applications > Mettre à jour la liste des applications
-
-3. Recherchez "Mail Template Archive" et installez le module
 
 ## Configuration
 
@@ -49,7 +34,7 @@ Aucune configuration spécifique n'est nécessaire après l'installation du modu
 
 ## Contributeurs
 
-* Votre Entreprise <contact@yourcompany.com>
+* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 
 ## Licence
 
