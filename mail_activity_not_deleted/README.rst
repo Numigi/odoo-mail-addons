@@ -7,11 +7,11 @@ This module deactivates terminated activities instead of deleting them from the 
 
 To see deactivated activities : 
 
-.. image::  static/description/view_activities.png
+.. image:: https://raw.githubusercontent.com/Numigi/odoo-mail-addons/16.0/mail_activity_not_deleted/static/description/view_activities.png
 
-.. image:: static/description/filter_active_is_no.png
+.. image:: https://raw.githubusercontent.com/Numigi/odoo-mail-addons/16.0/mail_activity_not_deleted/static/description/filter_active_is_no.png
 
-.. image:: static/description/deactivated_activities.png    
+.. image:: https://raw.githubusercontent.com/Numigi/odoo-mail-addons/16.0/mail_activity_not_deleted/static/description/deactivated_activities.png    
     
 New State
 ---------
