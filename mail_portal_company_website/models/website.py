@@ -1,7 +1,8 @@
 # © 2025 Numigi
 # License LGPL-3.0-or-later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, models
+import re
+from odoo import api, models, tools
 
 
 class Website(models.Model):
@@ -28,10 +29,15 @@ class Website(models.Model):
         if not website and company.website:
             # If no website record is linked but company has website URL field set
             # Clean and return company.website value
-            website_url = company.website
+            website_url = (company.website or '').strip()
+            if not website_url:
+                return self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            
+            # Ensure protocol and strip invalid chars
+            website_url = re.sub(r'[^\w\-\.:\/]', '', website_url)  # Basic sanitation
             if not website_url.startswith(('http://', 'https://')):
                 website_url = 'https://' + website_url
-            return website_url
+            return website_url.rstrip('/')
             
         if website:
             return website.get_base_url()

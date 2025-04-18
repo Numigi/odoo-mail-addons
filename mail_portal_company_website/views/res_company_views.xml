@@ -7,7 +7,9 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='social_media']" position="after">
                 <group name="portal_emails" string="Portal Emails">
-                    <field name="use_website_for_portal_urls"/>
+                    <field name="use_website_for_portal_urls"
+                        string="Use Company Website for Portal Links"
+                        help="When enabled, all portal links in emails will use this company's website URL instead of the main Odoo URL"/>
                 </group>
             </xpath>
         </field>

@@ -28,14 +28,17 @@ class MailThread(models.AbstractModel):
                 
         return context
         
+    @tools.ormcache('self.company_id.id')
     def _replace_local_links(self, html, base_url=None):
         """Override to use the company's website URL for local links if needed.
         
         This is necessary because some templates might build URLs directly with web.base.url
         before we have a chance to modify the context.
+        Uses caching to avoid repeated URL computations.
         """
         if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
-            base_url = self.env['website'].get_company_website_url(self.company_id)
+            base_url = self.env['website'].with_context(
+                bypass_cache=True).get_company_website_url(self.company_id)
         
         return super()._replace_local_links(html, base_url)
 

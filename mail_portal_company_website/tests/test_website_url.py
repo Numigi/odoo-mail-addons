@@ -70,3 +70,23 @@ class TestWebsiteURL(common.SavepointCase):
         """Test getting URL when no website is defined."""
         url = self.env["website"].get_company_website_url(self.company_4)
         self.assertEqual(url, "https://odoo.example.com")
+    
+    def test_05_get_company_website_url_invalid_chars(self):
+        """Test URL sanitization with invalid characters."""
+        test_company = self.env["res.company"].create({
+            "name": "Test Company 5",
+            "website": "https://invalid<script>alert(1)</script>.example.com",
+            "use_website_for_portal_urls": True,
+        })
+        url = self.env["website"].get_company_website_url(test_company)
+        self.assertEqual(url, "https://invalidalert1.example.com")
+    
+    def test_06_get_company_website_url_trailing_slash(self):
+        """Test URL trailing slash handling."""
+        test_company = self.env["res.company"].create({
+            "name": "Test Company 6",
+            "website": "https://test.example.com/path/",
+            "use_website_for_portal_urls": True,
+        })
+        url = self.env["website"].get_company_website_url(test_company)
+        self.assertEqual(url, "https://test.example.com/path")
