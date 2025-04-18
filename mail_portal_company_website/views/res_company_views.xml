@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_inherit_mail_portal" model="ir.ui.view">
+        <field name="name">Company Form: Add use website for portal URLs option</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='social_media']" position="after">
+                <group name="portal_emails" string="Portal Emails">
+                    <field name="use_website_for_portal_urls"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
