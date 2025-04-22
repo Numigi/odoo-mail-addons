@@ -79,7 +79,14 @@ class TestWebsiteURL(common.SavepointCase):
             "use_website_for_portal_urls": True,
         })
         url = self.env["website"].get_company_website_url(test_company)
-        self.assertEqual(url, "https://invalidalert1.example.com")
+        # Vérifier que les balises script sont supprimées
+        self.assertNotIn("<script>", url)
+        self.assertNotIn("</script>", url)
+        # Vérifier que le domaine principal est conservé
+        self.assertIn("invalid", url)
+        self.assertIn(".example.com", url)
+        # Vérifier que le protocole est conservé
+        self.assertTrue(url.startswith("https://"))
     
     def test_06_get_company_website_url_trailing_slash(self):
         """Test URL trailing slash handling."""

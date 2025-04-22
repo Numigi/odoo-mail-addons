@@ -33,11 +33,25 @@ class Website(models.Model):
             if not website_url:
                 return self.env["ir.config_parameter"].sudo().get_param("web.base.url")
             
-            # Ensure protocol and strip invalid chars
-            website_url = re.sub(r'[^\w\-\.:\/]', '', website_url)  # Basic sanitation
-            if not website_url.startswith(('http://', 'https://')):
-                website_url = 'http://' + website_url
-            return website_url.rstrip('/')
+            # Ensure protocol
+            website_url = website_url.strip()
+            
+            # Keep the original protocol if it exists
+            if website_url.startswith('https://'):
+                protocol = 'https://'
+            else:
+                protocol = 'http://'
+                
+            # Remove any existing protocol for processing
+            if website_url.startswith(('http://', 'https://')):
+                website_url = re.sub(r'^https?:\/\/', '', website_url)
+                
+            # Remove dangerous characters
+            website_url = re.sub(r'<[^>]*>', '', website_url)  # Remove HTML tags
+            website_url = re.sub(r'[^\w\-\.:\/]', '', website_url)  # Remove other unsafe chars
+            
+            # Add protocol back
+            return protocol + website_url.rstrip('/')
             
         if website:
             return website.get_base_url()

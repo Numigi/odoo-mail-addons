@@ -13,6 +13,10 @@ class MailThread(models.AbstractModel):
         """Override to replace the base_url in the context with the company's website URL."""
         context = super()._notify_prepare_template_context(message, msg_vals, **kwargs)
         
+        # Ensure context has a base_url value by default
+        if 'base_url' not in context:
+            context['base_url'] = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            
         # Only modify URLs for records that may have a company
         if hasattr(self, 'company_id'):
             company = self.company_id
