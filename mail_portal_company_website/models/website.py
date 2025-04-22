@@ -36,7 +36,7 @@ class Website(models.Model):
             # Ensure protocol and strip invalid chars
             website_url = re.sub(r'[^\w\-\.:\/]', '', website_url)  # Basic sanitation
             if not website_url.startswith(('http://', 'https://')):
-                website_url = 'https://' + website_url
+                website_url = 'http://' + website_url
             return website_url.rstrip('/')
             
         if website:

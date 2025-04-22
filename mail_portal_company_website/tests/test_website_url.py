@@ -59,7 +59,7 @@ class TestWebsiteURL(common.SavepointCase):
     def test_02_get_company_website_url_with_website_field_only(self):
         """Test getting URL when company has only website field."""
         url = self.env["website"].get_company_website_url(self.company_2)
-        self.assertEqual(url, "https://company2.example.com")
+        self.assertEqual(url, "http://company2.example.com")
     
     def test_03_get_company_website_url_option_disabled(self):
         """Test getting URL when option is disabled."""

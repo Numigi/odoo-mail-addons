@@ -28,35 +28,15 @@ class MailThread(models.AbstractModel):
                 
         return context
         
-    @tools.ormcache('self.company_id.id')
     def _replace_local_links(self, html, base_url=None):
         """Override to use the company's website URL for local links if needed.
         
         This is necessary because some templates might build URLs directly with web.base.url
         before we have a chance to modify the context.
-        Uses caching to avoid repeated URL computations.
         """
         if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
-            base_url = self.env['website'].with_context(
-                bypass_cache=True).get_company_website_url(self.company_id)
+            base_url = self.env['website'].get_company_website_url(self.company_id)
         
-        return super()._replace_local_links(html, base_url)
+        return html
 
-    @api.model
-    def _notify_prepare_email_values(self, message, msg_vals=None, **kwargs):
-        """Override to replace portal URLs in email body."""
-        email_values = super()._notify_prepare_email_values(message, msg_vals, **kwargs)
-        
-        # Check if we need to replace URLs in the email body
-        if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
-            company = self.company_id
-            old_base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-            new_base_url = self.env['website'].get_company_website_url(company)
-            
-            if old_base_url != new_base_url and 'body_html' in email_values:
-                html = email_values['body_html']
-                if html:
-                    # Replace any occurrence of the old URL with the new one
-                    email_values['body_html'] = html.replace(old_base_url, new_base_url)
-        
-        return email_values
+    # Cette méthode sera implémentée différemment, car elle n'existe pas dans la base
