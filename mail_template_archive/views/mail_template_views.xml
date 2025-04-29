@@ -22,7 +22,7 @@
         <field name="inherit_id" ref="mail.email_template_tree"/>
         <field name="arch" type="xml">
             <field name="name" position="before">
-                <field name="active" widget="boolean_toggle"/>
+                <field name="active"/>
             </field>
         </field>
     </record>
