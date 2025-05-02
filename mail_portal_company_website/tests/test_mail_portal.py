@@ -76,17 +76,11 @@ class TestMailPortal(common.SavepointCase):
         # Check that the base_url is not replaced
         self.assertEqual(context.get("base_url"), self.base_url)
     
-    def test_03_replace_local_links(self):
-        """Test that local links are correctly processed."""
+    def test_03_get_base_url(self):
+        """Test that get_base_url returns the correct URL based on company settings."""
         
         # Enable option on company
         self.company.use_website_for_portal_urls = True
-        
-        # HTML with links using base URL
-        html = f"""
-        <p>Link to portal: <a href="{self.base_url}/my/partners/123">View Partner</a></p>
-        <p>Link to website: <a href="{self.base_url}/shop">Shop</a></p>
-        """
         
         # Get company website URL
         company_website_url = self.env["website"].get_company_website_url(self.company)
@@ -95,12 +89,12 @@ class TestMailPortal(common.SavepointCase):
         self.assertTrue(company_website_url)
         self.assertTrue("test-website.example.com" in company_website_url)
         
-        # Test the actual link replacement
-        result_html = self.test_record._replace_local_links(html)
+        # Test that get_base_url returns the company's website URL
+        base_url = self.test_record.get_base_url()
         
-        # Check that base URL was replaced
-        self.assertNotIn(self.base_url, result_html)
-        self.assertIn(company_website_url, result_html)
+        # Check that the base URL is the company's website URL
+        self.assertEqual(base_url, company_website_url)
+        self.assertNotEqual(base_url, self.base_url)
     
     def test_04_template_context_urls(self):
         """Test that URLs in template context are replaced correctly."""

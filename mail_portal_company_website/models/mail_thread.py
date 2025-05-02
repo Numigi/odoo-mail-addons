@@ -32,23 +32,19 @@ class MailThread(models.AbstractModel):
                 
         return context
         
-    def _replace_local_links(self, html, base_url=None):
-        """Replace local links in HTML with absolute URLs.
+    def get_base_url(self):
+        """Override to return the company website URL when configured.
         
-        If company has website, use the company's website URL for links.
+        By default, return the standard base URL, but if the record has a company
+        and the company is configured to use its website URL for portal links,
+        return that URL instead.
+        
+        Returns:
+            str: The base URL to use for this record
         """
-        if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
-            base_url = self.env['website'].get_company_website_url(self.company_id)
+        self.ensure_one()
         
-        if not base_url:
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
+            return self.env['website'].get_company_website_url(self.company_id)
             
-        if not html or not base_url:
-            return html
-            
-        # Replace absolute URLs from web.base.url to company website URL
-        old_base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        if old_base_url and old_base_url != base_url:
-            html = html.replace(old_base_url, base_url)
-            
-        return html
+        return super().get_base_url()
