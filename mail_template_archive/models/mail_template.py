@@ -19,11 +19,9 @@ class MailTemplate(models.Model):
     @api.multi
     def action_archive(self):
         """Archive the selected mail templates."""
-        self.write({'active': False})
-        return True
+        self.active = False
         
     @api.multi
     def action_unarchive(self):
         """Unarchive the selected mail templates."""
-        self.write({'active': True})
-        return True
+        self.active = True
