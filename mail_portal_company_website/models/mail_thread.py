@@ -33,10 +33,9 @@ class MailThread(models.AbstractModel):
         return context
         
     def _replace_local_links(self, html, base_url=None):
-        """Override to use the company's website URL for local links if needed.
+        """Replace local links in HTML with absolute URLs.
         
-        This is necessary because some templates might build URLs directly with web.base.url
-        before we have a chance to modify the context.
+        If company has website, use the company's website URL for links.
         """
         if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
             base_url = self.env['website'].get_company_website_url(self.company_id)
@@ -44,5 +43,12 @@ class MailThread(models.AbstractModel):
         if not base_url:
             base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
             
-        # Call super method with the custom base_url to perform the actual replacement
-        return super()._replace_local_links(html, base_url=base_url)
+        if not html or not base_url:
+            return html
+            
+        # Replace absolute URLs from web.base.url to company website URL
+        old_base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        if old_base_url and old_base_url != base_url:
+            html = html.replace(old_base_url, base_url)
+            
+        return html
