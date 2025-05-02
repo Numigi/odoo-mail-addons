@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- mail_template_archive/views/mail_template_views.xml -->
+<!-- © 2021 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens) -->
+<!-- License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<odoo>
+    <!-- Modification de la vue form -->
+    <record id="email_template_form_with_active" model="ir.ui.view">
+        <field name="name">mail.template.form.active</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Modification de la vue tree pour montrer le statut actif -->
+    <record id="email_template_tree_with_active" model="ir.ui.view">
+        <field name="name">mail.template.tree.active</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="active"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Modification de la vue search pour permettre de filtrer par statut actif -->
+    <record id="email_template_search_with_active" model="ir.ui.view">
+        <field name="name">mail.template.search.active</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.view_email_template_search"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+    
+</odoo>

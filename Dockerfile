@@ -13,6 +13,7 @@ USER odoo
 
 COPY mail_activity_not_deleted /mnt/extra-addons/mail_activity_not_deleted
 COPY mail_autosubscribe /mnt/extra-addons/mail_autosubscribe
+COPY mail_template_archive /mnt/extra-addons/mail_template_archive
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
