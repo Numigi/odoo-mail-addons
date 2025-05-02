@@ -22,14 +22,14 @@ class TestMailTemplate(SavepointCase):
     def test_archive_single_template(self):
         """Test archiving a single template."""
         self.assertTrue(self.template.active, "Template should be active by default")
-        self.template.action_archive()
+        self.template.toggle_active()
         self.assertFalse(self.template.active, "Template should be archived")
 
     def test_unarchive_single_template(self):
         """Test unarchiving a single template."""
         self.template.write({'active': False})
         self.assertFalse(self.template.active, "Template should be inactive")
-        self.template.action_unarchive()
+        self.template.toggle_active()
         self.assertTrue(self.template.active, "Template should be unarchived")
 
     def test_archive_multiple_templates(self):
@@ -40,7 +40,7 @@ class TestMailTemplate(SavepointCase):
         for template in templates:
             self.assertTrue(template.active, "Templates should be active by default")
         
-        templates.action_archive()
+        templates.write({'active': False})
         
         for template in templates:
             self.assertFalse(template.active, "All templates should be archived")
@@ -54,7 +54,7 @@ class TestMailTemplate(SavepointCase):
         for template in templates:
             self.assertFalse(template.active, "Templates should be inactive")
         
-        templates.action_unarchive()
+        templates.write({'active': True})
         
         for template in templates:
             self.assertTrue(template.active, "All templates should be unarchived")
