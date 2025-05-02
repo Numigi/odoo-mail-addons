@@ -2,7 +2,7 @@
 # © 2021 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import models, fields, api
+from odoo import models, fields
 
 
 class MailTemplate(models.Model):
@@ -15,13 +15,3 @@ class MailTemplate(models.Model):
         default=True,
         help="If unchecked, it will allow you to hide the email template without removing it.",
     )
-    
-    @api.multi
-    def action_archive(self):
-        """Archive the selected mail templates."""
-        self.active = False
-        
-    @api.multi
-    def action_unarchive(self):
-        """Unarchive the selected mail templates."""
-        self.active = True
