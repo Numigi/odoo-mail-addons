@@ -54,7 +54,23 @@ class Website(models.Model):
             return protocol + website_url.rstrip('/')
             
         if website:
-            return website.get_base_url()
+            # Construct the URL using the website domain instead of calling get_base_url()
+            domain = website.domain or ""
+            if not domain:
+                return website.get_base_url()
+                
+            # Ensure protocol
+            if domain.startswith('https://'):
+                protocol = 'https://'
+            else:
+                protocol = 'http://'
+                
+            # Remove any existing protocol for processing
+            if domain.startswith(('http://', 'https://')):
+                domain = re.sub(r'^https?:\/\/', '', domain)
+                
+            # Return with protocol
+            return protocol + domain.rstrip('/')
             
         # Fallback to default
         return self.env["ir.config_parameter"].sudo().get_param("web.base.url")
