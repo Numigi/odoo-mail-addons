@@ -1,5 +1,5 @@
-# © 2021 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+# Copyright 2015 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)
 {
     'name': 'Mail Template Archive',
     'version': '12.0.1.0.0',
