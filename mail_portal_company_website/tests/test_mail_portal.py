@@ -94,6 +94,13 @@ class TestMailPortal(common.SavepointCase):
         # Check we have a valid URL
         self.assertTrue(company_website_url)
         self.assertTrue("test-website.example.com" in company_website_url)
+        
+        # Test the actual link replacement
+        result_html = self.test_record._replace_local_links(html)
+        
+        # Check that base URL was replaced
+        self.assertNotIn(self.base_url, result_html)
+        self.assertIn(company_website_url, result_html)
     
     def test_04_template_context_urls(self):
         """Test that URLs in template context are replaced correctly."""

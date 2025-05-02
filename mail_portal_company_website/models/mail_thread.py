@@ -41,6 +41,8 @@ class MailThread(models.AbstractModel):
         if hasattr(self, 'company_id') and self.company_id.use_website_for_portal_urls:
             base_url = self.env['website'].get_company_website_url(self.company_id)
         
-        return html
-
-    # Cette méthode sera implémentée différemment, car elle n'existe pas dans la base
+        if not base_url:
+            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            
+        # Call super method with the custom base_url to perform the actual replacement
+        return super()._replace_local_links(html, base_url=base_url)
