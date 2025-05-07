@@ -1,9 +1,7 @@
 # Copyright 2025 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from unittest.mock import patch
 from odoo.tests import common
-from odoo.addons.mail.models.mail_render_mixin import MailRenderMixin
 
 
 class TestMailPortal(common.SavepointCase):
