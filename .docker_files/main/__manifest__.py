@@ -13,6 +13,7 @@
     "depends": [
         "fetchmail_outlook_by_company",
         "mail_activity_not_deleted",
+        "mail_portal_company_website",
     ],
     "installable": True,
 }
