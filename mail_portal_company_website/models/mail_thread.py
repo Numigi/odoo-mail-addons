@@ -29,7 +29,7 @@ class MailThread(models.AbstractModel):
                     "web.base.url")
                 if old_base_url != base_url and 'record_url' in context:
                     context['record_url'] = context['record_url'].replace(
-                        old_base_url,base_url
+                        old_base_url, base_url
                     )
 
         return context

@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import re
-from odoo import api, models, tools
+from odoo import api, models
 
 
 class Website(models.Model):
@@ -37,7 +37,8 @@ class Website(models.Model):
         return default_base_url
 
     def _sanitize_url(self, url):
-        """Sanitize and normalize a URL string, ensuring http/https and removing unsafe characters."""
+        """Sanitize and normalize a URL string, ensuring http/https
+        and removing unsafe characters."""
         url = (url or '').strip()
         if not url:
             return None
