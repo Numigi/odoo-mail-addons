@@ -10,6 +10,8 @@ class Company(models.Model):
     use_website_for_portal_urls = fields.Boolean(
         string="Use Website URL for Portal Links",
         default=False,
-        help="If checked, portal links in emails will use the company's website URL "
-        "instead of the standard web.base.url parameter.",
+        help=(
+            "If checked, portal links in emails will use the company's website URL "
+            "instead of the standard web.base.url parameter."
+        ),
     )
