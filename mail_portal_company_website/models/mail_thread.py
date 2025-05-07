@@ -1,5 +1,5 @@
-# © 2025 Numigi
-# License LGPL-3.0-or-later (http://www.gnu.org/licenses/lgpl).
+# Copyright 2025 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import re
 from odoo import api, models, tools
@@ -18,7 +18,7 @@ class MailThread(models.AbstractModel):
             context['base_url'] = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
             
         # Only modify URLs for records that may have a company
-        if hasattr(self, 'company_id'):
+        if hasattr(self, 'company_id') and self.company_id:
             company = self.company_id
             if company and company.use_website_for_portal_urls:
                 # Replace the base_url in the context
