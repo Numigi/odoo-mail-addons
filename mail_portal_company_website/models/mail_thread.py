@@ -28,8 +28,9 @@ class MailThread(models.AbstractModel):
                 old_base_url = self.env["ir.config_parameter"].sudo().get_param(
                     "web.base.url")
                 if old_base_url != base_url and 'record_url' in context:
-                    context['record_url'] = context['record_url'].replace(old_base_url,
-                        base_url)
+                    context['record_url'] = context['record_url'].replace(
+                        old_base_url,base_url
+                    )
 
         return context
 
