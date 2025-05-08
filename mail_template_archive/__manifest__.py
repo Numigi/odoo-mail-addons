@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl)
 {
     'name': 'Mail Template Archive',
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.0.1',
     'author': 'Numigi',
     'maintainer': 'Numigi',
     'license': 'LGPL-3',
