@@ -29,12 +29,7 @@ Le système suit cette logique pour déterminer l'URL à utiliser:
 2. Si aucun site web n'est trouvé mais que la société a un champ website rempli, utilise cette valeur
 3. En dernier recours, utilise le paramètre système web.base.url
 
-Contributeurs
-============
+Contributors
+------------
 
-* Numigi (tm) et ses contributeurs
-
-Plus d'information
-=================
-
-* Rencontrez-nous sur https://bit.ly/numigi-com
+The `Numigi <https://numigi.com/r/home>`_ team is the contributor to this project. We help Quebec companies implement Odoo and Konvergo ERP.
