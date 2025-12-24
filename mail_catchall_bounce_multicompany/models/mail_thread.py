@@ -1,6 +1,7 @@
 # © Numigi (tm) and all its contributors (https://numigi.com/r/home)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/AGPL).
 
+# -*- coding: utf-8 -*-
 import ast
 import logging
 import re
@@ -20,7 +21,7 @@ class MailThread(models.AbstractModel):
     ):  # noqa: C901
         """
         OVERRIDE: Numigi Patch for Multi-Company Bounce.
-        Injects the correct 'company' into the bounce template rendering context
+        Injects the correct 'res_company' into the bounce template rendering context
         based on the recipient email domain.
         """
         if not isinstance(message, EmailMessage):
@@ -92,7 +93,7 @@ class MailThread(models.AbstractModel):
         if bounce_alias and any(
             email.startswith(bounce_alias) for email in email_to_localparts
         ):
-            # Regex raw string fix applied below
+            # Regex raw string fix
             bounce_re = re.compile(
                 r"%s\+(\d+)-?([\w.]+)?-?(\d+)?" % re.escape(bounce_alias), re.UNICODE
             )
@@ -199,7 +200,7 @@ class MailThread(models.AbstractModel):
                 # Render with the specific company in context
                 body = self.env.ref('mail.mail_bounce_catchall')._render({
                     'message': message,
-                    'company': target_company,  # Pass the correct company
+                    'res_company': target_company,  # Pass the correct company
                 }, engine='ir.qweb')
 
                 # Use target company email for reply-to if available

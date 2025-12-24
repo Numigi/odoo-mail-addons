@@ -11,7 +11,7 @@ class TestMailBounceCompany(TransactionCase):
         super(TestMailBounceCompany, self).setUp()
 
         # 1. Setup Catchall parameters
-        # Important: set_param invalidates the cache, ensuring message_route reads new values
+        # Ensure 'catchall' alias is set so logic in message_route can trigger
         self.env['ir.config_parameter'].sudo().set_param(
             'mail.catchall.domain', 'main-domain.com'
         )
@@ -46,7 +46,6 @@ class TestMailBounceCompany(TransactionCase):
         """
 
         # Mocking an incoming email dictionary
-        # Note: We must ensure 'to' and 'recipients' allow splitting correctly
         message_dict = {
             'message_id': '<12345@external.com>',
             'subject': 'Test Bounce',
@@ -65,26 +64,22 @@ class TestMailBounceCompany(TransactionCase):
         msg['To'] = 'catchall@other-domain.com'
         msg['Message-Id'] = '<12345@external.com>'
 
-        # We need to ensure the mail.mail creation is detected.
-        # In Odoo tests, sometimes mails are not committed to DB immediately or
-        # context/user rights hide them. We use sudo() to search.
+        # We use sudo() to ensure we see all mails regardless of current user/company
         Mail = self.env['mail.mail'].sudo()
         existing_mails = Mail.search([])
 
         # Call the route (this triggers the patch logic)
-        # Using self.env['mail.thread'] works because message_route is an @api.model
         routes = self.env['mail.thread'].message_route(msg, message_dict)
 
-        # message_route returns [] when it handles a bounce/catchall directly
-        self.assertEqual(routes, [], "message_route should return [] for a catchall bounce")
+        # The catchall/bounce route returns an empty list
+        self.assertEqual(
+            routes, [],
+            "message_route should return [] when triggering a catchall bounce"
+        )
 
         # Check for new mail created
         new_mails = Mail.search([('id', 'not in', existing_mails.ids)])
 
-        # DEBUG: Si le test échoue ici, c'est que le mail n'est pas créé.
-        # Vérifiez:
-        # 1. Si mail.catchall.alias est bien 'catchall'
-        # 2. Si le domaine 'other-domain.com' est bien autorisé
         self.assertTrue(new_mails, "A bounce email should have been created in mail.mail")
 
         bounce_mail = new_mails[0]
@@ -94,8 +89,7 @@ class TestMailBounceCompany(TransactionCase):
         self.assertIn(
             self.company_secondary.name,
             bounce_mail.body_html,
-            "The bounce email should mention the company matching "
-            "the domain (Secondary Target Corp)"
+            "The bounce email should mention the company matching the domain"
         )
 
         # It should NOT contain the Main Company name
