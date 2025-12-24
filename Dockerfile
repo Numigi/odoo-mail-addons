@@ -10,6 +10,7 @@ USER odoo
 
 COPY fetchmail_outlook_by_company /mnt/extra-addons/fetchmail_outlook_by_company
 COPY mail_activity_not_deleted /mnt/extra-addons/mail_activity_not_deleted
+COPY mail_catchall_bounce_multicompany /mnt/extra-addons/mail_catchall_bounce_multicompany
 COPY mail_portal_company_website /mnt/extra-addons/mail_portal_company_website
 
 COPY .docker_files/main /mnt/extra-addons/main
