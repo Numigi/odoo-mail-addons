@@ -16,7 +16,7 @@ class MailThread(models.AbstractModel):
     _inherit = 'mail.thread'
 
     @api.model
-    def message_route(
+    def message_route(  # noqa: C901
         self, message, message_dict, model=None, thread_id=None, custom_values=None
     ):  # noqa: C901
         """
