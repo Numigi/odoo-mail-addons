@@ -2,5 +2,3 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/AGPL).
 
 from . import test_mail_bounce
-
-
