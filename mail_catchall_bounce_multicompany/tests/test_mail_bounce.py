@@ -1,6 +1,7 @@
 # © Numigi (tm) and all its contributors (https://numigi.com/r/home)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/AGPL).
 
+from unittest.mock import patch
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
@@ -11,7 +12,6 @@ class TestMailBounceCompany(TransactionCase):
         super(TestMailBounceCompany, self).setUp()
 
         # 1. Setup Catchall parameters
-        # Ensure 'catchall' alias is set so logic in message_route can trigger
         self.env['ir.config_parameter'].sudo().set_param(
             'mail.catchall.domain', 'main-domain.com'
         )
@@ -41,8 +41,8 @@ class TestMailBounceCompany(TransactionCase):
     def test_bounce_catchall_uses_correct_company(self):
         """
         Test that sending an email to 'catchall@other-domain.com'
-        (which has no specific alias) triggers a bounce email containing
-        'Secondary Target Corp' instead of 'Main Company Inc'.
+        triggers a bounce email containing 'Secondary Target Corp'.
+        We mock mail.mail.send to prevent the auto-deletion of the bounce email.
         """
 
         # Mocking an incoming email dictionary
@@ -64,44 +64,47 @@ class TestMailBounceCompany(TransactionCase):
         msg['To'] = 'catchall@other-domain.com'
         msg['Message-Id'] = '<12345@external.com>'
 
-        # We use sudo() to ensure we see all mails regardless of current user/company
+        # We need to capture existing mails to find the new one later
         Mail = self.env['mail.mail'].sudo()
         existing_mails = Mail.search([])
 
-        # Call the route (this triggers the patch logic)
-        routes = self.env['mail.thread'].message_route(msg, message_dict)
+        # --- KEY FIX: Mock 'send' to prevent deletion of the bounce email ---
+        with patch('odoo.addons.mail.models.mail_mail.MailMail.send', return_value=True):
+            # Call the route (this triggers the patch logic)
+            routes = self.env['mail.thread'].message_route(msg, message_dict)
 
-        # The catchall/bounce route returns an empty list
-        self.assertEqual(
-            routes, [],
-            "message_route should return [] when triggering a catchall bounce"
-        )
+            # The catchall/bounce route returns an empty list
+            self.assertEqual(
+                routes, [],
+                "message_route should return [] when triggering a catchall bounce"
+            )
 
-        # Check for new mail created
-        new_mails = Mail.search([('id', 'not in', existing_mails.ids)])
+            # Check for new mail created
+            # Since 'send' was mocked, the mail is NOT deleted and we can find it
+            new_mails = Mail.search([('id', 'not in', existing_mails.ids)])
 
-        self.assertTrue(new_mails, "A bounce email should have been created in mail.mail")
+            self.assertTrue(new_mails, "A bounce email should have been created in mail.mail")
 
-        bounce_mail = new_mails[0]
+            bounce_mail = new_mails[0]
 
-        # ASSERTIONS
-        # The bounce body should contain the name of the Secondary Company
-        self.assertIn(
-            self.company_secondary.name,
-            bounce_mail.body_html,
-            "The bounce email should mention the company matching the domain"
-        )
+            # ASSERTIONS
+            # The bounce body should contain the name of the Secondary Company
+            self.assertIn(
+                self.company_secondary.name,
+                bounce_mail.body_html,
+                "The bounce email should mention the company matching the domain"
+            )
 
-        # It should NOT contain the Main Company name
-        self.assertNotIn(
-            self.company_main.name,
-            bounce_mail.body_html,
-            "The bounce email should NOT mention the default/main company"
-        )
+            # It should NOT contain the Main Company name
+            self.assertNotIn(
+                self.company_main.name,
+                bounce_mail.body_html,
+                "The bounce email should NOT mention the default/main company"
+            )
 
-        # Verify the reply-to is also correct
-        self.assertIn(
-            self.company_secondary.email,
-            bounce_mail.reply_to,
-            "The Reply-To should be set to the secondary company email"
-        )
+            # Verify the reply-to is also correct
+            self.assertIn(
+                self.company_secondary.email,
+                bounce_mail.reply_to,
+                "The Reply-To should be set to the secondary company email"
+            )
