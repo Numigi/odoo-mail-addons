@@ -148,7 +148,7 @@ class MailThread(models.AbstractModel):
                 # Render with the specific company in context
                 body = self.env.ref('mail.mail_bounce_catchall')._render({
                     'message': message,
-                    'res_company': target_company,  # Pass the correct company
+                    'company': target_company,  # Pass the correct company
                 }, engine='ir.qweb')
 
                 # Use target company email for reply-to if available
