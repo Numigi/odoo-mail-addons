@@ -2,12 +2,10 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from datetime import datetime
-
 from odoo import api, fields, models
 
 
 class MailActivityInactivatedInsteadOfDeleted(models.Model):
-
     _inherit = "mail.activity"
 
     active = fields.Boolean(default=True)
@@ -31,20 +29,16 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
             return super().unlink()
 
     def _send_signal_done(self):
-        """Send the signal to the chatter that the activity has been completed.
-
-        The code in this method was extracted odoo/addons/mail/models/mail_activity.py.
-        """
+        """Send the signal to the chatter that the activity has been completed."""
         todo_activities = self.filtered(
             lambda act: act.date_deadline <= fields.Date.today()
         )
         if todo_activities:
-            self.env["bus.bus"]._sendmany(
-                [
-                    [partner, "mail.activity/updated", {"activity_deleted": True}]
-                    for partner in todo_activities.user_id.partner_id
-                ]
-            )
+            # Odoo 18 : On boucle sur chaque partenaire et on utilise _sendone
+            for partner in todo_activities.user_id.partner_id:
+                self.env["bus.bus"]._sendone(
+                    partner, "mail.activity/updated", {"activity_deleted": True}
+                )
 
 
 class MailActivityWithStateDone(models.Model):
