@@ -34,7 +34,7 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
             lambda act: act.date_deadline <= fields.Date.today()
         )
         if todo_activities:
-            self.env["bus.bus"]._sendmany(
+            self.env["bus.bus"]._sendone(
                 [
                     (partner, "mail.activity/updated", {"activity_deleted": True})
                     for partner in todo_activities.user_id.partner_id
