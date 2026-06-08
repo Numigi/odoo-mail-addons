@@ -8,28 +8,29 @@ from odoo.tests import TransactionCase, tagged
 
 @tagged("post_install", "-at_install")
 class TestMailActivity(TransactionCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.partner = cls.env.ref('base.res_partner_2')
-        cls.activity = cls.env['mail.activity'].create(
+        cls.partner = cls.env.ref("base.res_partner_2")
+        cls.activity = cls.env["mail.activity"].create(
             {
-                'res_id': cls.partner.id,
-                'res_model_id': cls.env.ref('base.model_res_partner').id,
-                'date_deadline': fields.Date.today(),
-                'user_id': cls.env.user.id,
+                "res_id": cls.partner.id,
+                "res_model_id": cls.env.ref("base.model_res_partner").id,
+                "date_deadline": fields.Date.today(),
+                "user_id": cls.env.user.id,
             }
         )
 
     def test_when_activity_is_completed_then_it_is_inactive_instead_of_deleted(self):
         self.assertTrue(self.activity.active)
 
-        self.activity.with_context({'mail_activity_no_delete': True}).action_done()
+        self.activity.with_context({"mail_activity_no_delete": True}).action_done()
         self.assertTrue(self.activity.exists())
         self.assertFalse(self.activity.active)
 
-    def test_when_record_is_deactivated_then_the_activity_is_inactive_instead_of_deleted(self):
+    def test_when_record_is_deactivated_then_the_activity_is_inactive_instead_of_deleted(
+        self,
+    ):
         self.assertTrue(self.activity.active)
 
         self.partner.active = False
@@ -43,15 +44,15 @@ class TestMailActivity(TransactionCase):
         self.assertFalse(self.activity.date_done)
 
         time_before = datetime.now()
-        self.activity.with_context({'mail_activity_no_delete': True}).action_done()
+        self.activity.with_context({"mail_activity_no_delete": True}).action_done()
         time_after = datetime.now()
 
         self.assertLessEqual(time_before, self.activity.date_done)
         self.assertLessEqual(self.activity.date_done, time_after)
 
     def test_the_state_is_done_after_the_activity_is_completed(self):
-        self.assertNotEqual(self.activity.state, 'done')
-        self.activity.with_context({'mail_activity_no_delete': True}).action_done()
+        self.assertNotEqual(self.activity.state, "done")
+        self.activity.with_context({"mail_activity_no_delete": True}).action_done()
 
         self.activity.invalidate_recordset()
-        self.assertEqual(self.activity.state, 'done')
+        self.assertEqual(self.activity.state, "done")

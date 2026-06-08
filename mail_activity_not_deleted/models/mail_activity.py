@@ -34,19 +34,21 @@ class MailActivityInactivatedInsteadOfDeleted(models.Model):
             lambda act: act.date_deadline <= fields.Date.today()
         )
         if todo_activities:
-            self.env["bus.bus"]._sendmany([
-                (partner, "mail.activity/updated", {"activity_deleted": True})
-                for partner in todo_activities.user_id.partner_id
-            ])
+            self.env["bus.bus"]._sendmany(
+                [
+                    (partner, "mail.activity/updated", {"activity_deleted": True})
+                    for partner in todo_activities.user_id.partner_id
+                ]
+            )
 
 
 class MailActivityWithStateDone(models.Model):
     """Add the state done to mail activities."""
+
     _inherit = "mail.activity"
 
     state = fields.Selection(
-        selection_add=[("done", "Done")],
-        ondelete={"done": "set default"}
+        selection_add=[("done", "Done")], ondelete={"done": "set default"}
     )
 
     @api.depends("date_deadline", "date_done")
@@ -55,4 +57,3 @@ class MailActivityWithStateDone(models.Model):
         done_activities = self.filtered(lambda a: a.date_done)
         for activity in done_activities:
             activity.state = "done"
-
