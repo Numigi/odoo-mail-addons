@@ -2,11 +2,12 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from datetime import datetime
+from odoo import fields
+from odoo.tests import TransactionCase, tagged
 
-from odoo.tests import common
 
-
-class TestMailActivity(common.SavepointCase):
+@tagged("post_install", "-at_install")
+class TestMailActivity(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -16,7 +17,7 @@ class TestMailActivity(common.SavepointCase):
             {
                 'res_id': cls.partner.id,
                 'res_model_id': cls.env.ref('base.model_res_partner').id,
-                'date_deadline': datetime.now(),
+                'date_deadline': fields.Date.today(),
                 'user_id': cls.env.user.id,
             }
         )
@@ -28,13 +29,13 @@ class TestMailActivity(common.SavepointCase):
         self.assertTrue(self.activity.exists())
         self.assertFalse(self.activity.active)
 
-    def test_when_record_is_deactivated_then_the_activity_is_inactive_instead_of_deleted(
-        self,
-    ):
+    def test_when_record_is_deactivated_then_the_activity_is_inactive_instead_of_deleted(self):
         self.assertTrue(self.activity.active)
 
         self.partner.active = False
-        self.activity.refresh()
+        # Invalidation du cache pour forcer le rafraîchissement
+        self.activity.invalidate_recordset()
+
         self.assertTrue(self.activity.exists())
         self.assertFalse(self.activity.active)
 
@@ -51,5 +52,6 @@ class TestMailActivity(common.SavepointCase):
     def test_the_state_is_done_after_the_activity_is_completed(self):
         self.assertNotEqual(self.activity.state, 'done')
         self.activity.with_context({'mail_activity_no_delete': True}).action_done()
-        self.activity.refresh()
+
+        self.activity.invalidate_recordset()
         self.assertEqual(self.activity.state, 'done')
