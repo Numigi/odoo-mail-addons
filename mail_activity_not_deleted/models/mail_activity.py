@@ -48,8 +48,7 @@ class MailActivityWithStateDone(models.Model):
     _inherit = "mail.activity"
 
     state = fields.Selection(
-        selection_add=[("done", "Done")], ondelete={"done": "set default"}
-    )
+        selection_add=[("done", "Done")])
 
     @api.depends("date_deadline", "date_done")
     def _compute_state(self):
